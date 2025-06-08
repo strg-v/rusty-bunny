@@ -58,6 +58,7 @@ impl GameControl {
 
         let mut message: String = String::from("");
         self.init_game();
+        let mut won_rounds = 0;
 
         loop {
             match self.state {
@@ -86,7 +87,7 @@ impl GameControl {
                     // Place player in overlay at its position in world
                     self.world.set(self.player.get_pos().x, self.player.get_pos().y, self.player.get_symbol());
                     
-                    message = format!("Steps: {}", self.player.get_player_steps());
+                    message = format!("Steps: {}\r\nWon rounds: {}", self.player.get_player_steps(), won_rounds);
 
                     self.world.draw(&Some(&message));
 
@@ -94,11 +95,13 @@ impl GameControl {
 
                 },
                 GameState::WON => {
-                    message = format!("Steps: {}\r\nYou Won! \n\rPress Space to restart, or ESC to end game.\r\n", self.player.get_player_steps());
+                    won_rounds += 1;
+                    message = format!("Steps: {}\r\nWon rounds: {}\r\nYou Won! \n\rPress Space to restart, or ESC to end game.\r\n", self.player.get_player_steps(), won_rounds);
                     self.state = GameState::END;
                 },
                 GameState::LOST => {
-                    message = format!("Steps: {}\r\nYou Lost! \n\rPress Space to restart, or ESC to end game.\r\n", self.player.get_player_steps());
+                    message = format!("Steps: {}\r\nWon rounds: {}\r\nYou Lost! \n\rPress Space to restart, or ESC to end game.\r\n", self.player.get_player_steps(), won_rounds);
+                    won_rounds = 0;
                     self.state = GameState::END;
                 },
                 GameState::END => {
