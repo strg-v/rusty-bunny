@@ -2,7 +2,6 @@
 use crossterm::style::{StyledContent, Stylize, Color};
 
 use crate::{row::{TerrainSymbols}, world::{World}};
-use crate::game::{KeyPress};
 
 #[derive(Copy, Clone)]
 pub struct Position {

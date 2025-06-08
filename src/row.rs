@@ -34,11 +34,9 @@ impl TerrainSymbols {
 }
 
 pub struct Row {
-    y: usize,
     width: usize,
     cells: Vec<StyledContent<char>>,
     overlay: Vec<StyledContent<char>>,
-    terrain: Terrain,
 
     log_handler: Option<LogHandler>,
 
@@ -66,10 +64,10 @@ impl Row {
         let overlay: Vec<StyledContent<char>> = vec![c.stylize(); width];
 
         Row {
-            y: y,
+            //y: y,
             width: width,
             cells: vec,
-            terrain: terrain,
+            //terrain: terrain,
             overlay: overlay,
             log_handler: None,
         }
@@ -102,8 +100,8 @@ impl Row {
         let overlay: Vec<StyledContent<char>> = vec![c.stylize(); width];
 
         Row {
-            terrain: Terrain::Grass,
-            y: y,
+            //terrain: Terrain::Grass,
+            //y: y,
             width: width,
             cells: cells,
             overlay: overlay,
@@ -133,10 +131,10 @@ impl Row {
 
         Row {
             cells: vec,
-            y: y,
+            //y: y,
             width: width,
             overlay: overlay,
-            terrain: Terrain::Water,
+            //terrain: Terrain::Water,
             log_handler: Option::Some( log_handler ), 
         }
 

@@ -35,7 +35,7 @@ impl World {
 
             let rand_n = rng.random_range(0..100);
 
-            if rand_n > 80 {
+            if rand_n > 50 {
                 let row = Row::new(y, width, Terrain::Water);
                 map.push(row);
             } else {
@@ -105,7 +105,7 @@ impl World {
     }
 
     pub fn get_row(&self, y: usize) -> &Row {
-        
+
         &self.map[y]
     }
 }

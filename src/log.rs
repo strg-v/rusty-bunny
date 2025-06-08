@@ -109,8 +109,7 @@ impl Log {
 pub struct LogHandler {
     width:usize,
     logs: Vec<Log>,
-    direction: i32,
-    y: usize,
+
 }
 
 impl LogHandler {
@@ -138,8 +137,8 @@ impl LogHandler {
         LogHandler { 
             width: width,
             logs: vector,
-            direction: direction,
-            y: y,
+            // direction: direction,
+            // y: y,
         }
     }
 

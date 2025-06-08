@@ -6,4 +6,5 @@ Rusty bunny is a little command line font based game where you need to cross riv
 
 ## Build
 
-Simply build with `cargo build` or build and run with `cargo run`.
+Simply build with `cargo build` or build and run with `cargo run` for development build.
+Use `cargo build -r` for release build.
