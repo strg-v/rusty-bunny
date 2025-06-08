@@ -1,5 +1,5 @@
 use crossterm::{
-    event::{self, Event, KeyCode},
+    event::{self, Event, KeyCode, KeyEvent, KeyEventKind},
     terminal::{disable_raw_mode, enable_raw_mode},
 };
 
@@ -164,28 +164,40 @@ impl GameControl {
 
     fn get_keypress(&self) -> KeyPress {
         
+        let duration = Duration::from_millis(self.tick_time_ms.into());
         let start_time = Instant::now();
-
         let mut key_code: KeyPress = KeyPress::None;
 
-        if event::poll(Duration::from_millis(self.tick_time_ms.into())).unwrap() {
+        while event::poll(Duration::from_millis(0)).unwrap() {
+        if let Event::Key(_) = event::read().unwrap() {
+            // just discard
+        }
+    }
+
+        if event::poll(duration).unwrap() {
             if let Event::Key(key_event) = event::read().unwrap() {
-                match key_event.code {
-                    KeyCode::Esc => return KeyPress::Esc,
-                    KeyCode::Up | KeyCode::Char('w') => key_code = KeyPress::Up,
-                    KeyCode::Right | KeyCode::Char('d') => key_code =  KeyPress::Right,
-                    KeyCode::Down | KeyCode::Char('s') => key_code =  KeyPress::Down,
-                    KeyCode::Left | KeyCode::Char('a') => key_code =  KeyPress::Left,
-                    KeyCode::Char(' ') => key_code =  KeyPress::Space,
-                    _ => key_code = KeyPress::None,
+
+                if key_event.kind == KeyEventKind::Press {
+
+                    match key_event.code {
+                        KeyCode::Esc => return KeyPress::Esc,
+                        KeyCode::Up | KeyCode::Char('w') => key_code = KeyPress::Up,
+                        KeyCode::Right | KeyCode::Char('d') => key_code =  KeyPress::Right,
+                        KeyCode::Down | KeyCode::Char('s') => key_code =  KeyPress::Down,
+                        KeyCode::Left | KeyCode::Char('a') => key_code =  KeyPress::Left,
+                        KeyCode::Char(' ') => key_code =  KeyPress::Space,
+                        _ => key_code = KeyPress::None,
+                    }
+
                 }
+                
             }
         }
 
-        let dur = Instant::now() - start_time;
+        let elapsed = start_time.elapsed();
 
-        if dur < Duration::from_millis(self.tick_time_ms.into()) {
-            sleep(Duration::from_millis(self.tick_time_ms.into()) - dur);
+        if elapsed < duration {
+            sleep(duration - elapsed);
         }
 
         return key_code;
